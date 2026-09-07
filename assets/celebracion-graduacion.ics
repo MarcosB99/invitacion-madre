@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Graduacion Mama//Invitacion Especial//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:graduacion-mama-21nov2026@invitacion-especial
+DTSTAMP:20260907T120000Z
+DTSTART:20261121T080000
+DTEND:20261121T100000
+SUMMARY:Graduación de Mamá
+LOCATION:Villas Magen Naranjo
+DESCRIPTION:Comida de agradecimiento y celebración por la graduación. ¡Nos emociona mucho compartir este momento contigo!
+END:VEVENT
+END:VCALENDAR

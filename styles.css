@@ -332,9 +332,9 @@ section {
 
 /* Estilo elegante para el enlace de la ubicación */
 .location-link {
-  color: var(--texto-principal);
+  color: var(--principal-text);
   text-decoration: none;
-  border-bottom: 1px solid var(--acento);
+  border-bottom: 1px solid var(--accent);
   padding-bottom: 2px;
   transition: all 0.4s ease;
   cursor: pointer;
@@ -342,7 +342,7 @@ section {
 
 .location-link:hover,
 .location-link:active {
-  color: var(--acento);
+  color: var(--accent);
   border-bottom: 1px solid transparent;
 }
 
@@ -350,9 +350,9 @@ section {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: var(--marfil);
-  border: 1px solid var(--acento);
-  color: var(--texto-secundario);
+  background-color: var(--ivory);
+  border: 1px solid var(--accent);
+  color: var(--secondary-text);
   padding: 0.8rem 1.2rem;
   font-family: "Lato", sans-serif;
   font-size: 0.7rem;
@@ -366,8 +366,8 @@ section {
 }
 
 .btn-musica:hover {
-  background-color: var(--crema);
-  color: var(--texto-principal);
+  background-color: var(--cream);
+  color: var(--principal-text);
 }
 
 /* Efecto hover sutil para la fecha */
@@ -375,7 +375,7 @@ section {
   transition: color 0.4s ease;
 }
 #btn-calendario:hover .date-hover {
-  color: var(--acento);
+  color: var(--accent);
 }
 
 /* Estilo del menú desplegable */
@@ -383,7 +383,7 @@ section {
   display: none;
   position: relative; /* Cambiado de absolute a relative */
   margin-top: 1rem; /* Espacio arriba del menú */
-  background-color: var(--marfil);
+  background-color: var(--ivory);
   border: 1px solid var(--beige);
   padding: 1.5rem;
   flex-direction: column;
@@ -401,7 +401,7 @@ section {
 }
 
 .calendar-modal a {
-  color: var(--texto-principal);
+  color: var(--principal-text);
   text-decoration: none;
   font-family: "Lato", sans-serif;
   font-size: 0.75rem;
@@ -413,8 +413,8 @@ section {
 }
 
 .calendar-modal a:hover {
-  color: var(--acento);
-  border-bottom: 1px solid var(--acento);
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
 }
 
 /* ==================================================
@@ -430,7 +430,7 @@ section {
 
 .photo-frame {
   padding: 0.8rem;
-  background-color: var(--marfil);
+  background-color: var(--ivory);
   border: 1px solid var(--beige);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
   position: relative;
@@ -444,7 +444,7 @@ section {
   left: -6px;
   right: -6px;
   bottom: -6px;
-  border: 1px solid var(--acento);
+  border: 1px solid var(--accent);
   opacity: 0.3;
 }
 
@@ -467,6 +467,6 @@ section {
   padding-bottom: 2px;
 }
 #btn-ubicacion:hover .location-hover {
-  color: var(--acento);
-  border-bottom: 1px solid var(--acento);
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
 }

@@ -131,23 +131,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // --- ARCHIVO PARA APPLE CALENDAR / OUTLOOK (.ics) ---
-    // Creamos el formato estándar iCalendar
-    const contenidoIcs = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:${titulo}
-DTSTART:${inicioEvento}
-DTEND:${finEvento}
-LOCATION:${ubicacion}
-DESCRIPTION:${detalles}
-END:VEVENT
-END:VCALENDAR`;
-
-    // Convertimos el texto en un archivo descargable temporal
-    const blob = new Blob([contenidoIcs], { type: 'text/calendar;charset=utf-8' });
-    const urlIcs = window.URL.createObjectURL(blob);
-    const linkApple = document.getElementById('cal-apple');
-
-    linkApple.href = urlIcs;
-    linkApple.download = "celebracion-graduacion.ics"; // Nombre del archivo que se descarga
+    // Ya no se genera en el navegador: el enlace apunta directo a
+    // ./assets/celebracion-graduacion.ics (ver href en index.html).
+    // Esto evita los problemas de Blob + download en navegadores
+    // integrados como el de WhatsApp/Instagram.
 });
