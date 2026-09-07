@@ -132,12 +132,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- ARCHIVO PARA APPLE CALENDAR / OUTLOOK (.ics) ---
     // Creamos el formato estándar iCalendar
-    if (document.getElementById('cal-apple')) {
-        const contenidoIcs = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nSUMMARY:${titulo}\nDTSTART:${inicioEvento}\nDTEND:${finEvento}\nLOCATION:${ubicacion}\nDESCRIPTION:${detalles}\nEND:VEVENT\nEND:VCALENDAR`;
-        const blob = new Blob([contenidoIcs], { type: 'text/calendar;charset=utf-8' });
-        const urlIcs = window.URL.createObjectURL(blob);
-        const linkApple = document.getElementById('cal-apple');
-        linkApple.href = urlIcs;
-        linkApple.download = "celebracion-graduacion.ics";
-    }
+    const contenidoIcs = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${titulo}
+DTSTART:${inicioEvento}
+DTEND:${finEvento}
+LOCATION:${ubicacion}
+DESCRIPTION:${detalles}
+END:VEVENT
+END:VCALENDAR`;
+
+    // Convertimos el texto en un archivo descargable temporal
+    const blob = new Blob([contenidoIcs], { type: 'text/calendar;charset=utf-8' });
+    const urlIcs = window.URL.createObjectURL(blob);
+    const linkApple = document.getElementById('cal-apple');
+
+    linkApple.href = urlIcs;
+    linkApple.download = "celebracion-graduacion.ics"; // Nombre del archivo que se descarga
 });
