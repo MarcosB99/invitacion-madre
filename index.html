@@ -345,9 +345,57 @@
         font-size: 1.2rem;
         color: var(--principal-text);
       }
+
+      /* Estilo elegante para el enlace de la ubicación */
+      .location-link {
+        color: var(--texto-principal);
+        text-decoration: none;
+        border-bottom: 1px solid var(--acento);
+        padding-bottom: 2px;
+        transition: all 0.4s ease;
+        cursor: pointer;
+      }
+
+      .location-link:hover,
+      .location-link:active {
+        color: var(--acento);
+        border-bottom: 1px solid transparent;
+      }
+
+      .btn-musica {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--marfil);
+        border: 1px solid var(--acento);
+        color: var(--texto-secundario);
+        padding: 0.8rem 1.2rem;
+        font-family: "Lato", sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border-radius: 50px;
+        cursor: pointer;
+        z-index: 9999;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s ease;
+      }
+
+      .btn-musica:hover {
+        background-color: var(--crema);
+        color: var(--texto-principal);
+      }
     </style>
   </head>
   <body>
+    <audio id="musica-fondo" loop preload="auto">
+      <source src="/audio-track.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Botón elegante flotante -->
+    <button id="btn-musica" class="btn-musica">
+      <span id="texto-musica">🎵 Reproducir Música</span>
+    </button>
     <!-- 1. APERTURA -->
     <section class="hero">
       <p class="sans-tracking reveal">Familia & Amigos</p>
@@ -517,7 +565,24 @@
 
           <div class="grid-item reveal">
             <h3 class="sans-tracking">LUGAR</h3>
-            <p class="serif">VILLAS MAGEN NARANJO</p>
+            <p class="serif">
+              <a
+                href="https://ul.waze.com/ul?venue_id=176554131.1765803450.9512547&overview=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="location-link"
+                >VILLAS MAGEN NARANJO</a
+              >
+            </p>
+            <p
+              style="
+                font-size: 0.7rem;
+                color: var(--texto-secundario);
+                margin-top: 0.5rem;
+                font-family: &quot;Lato&quot;, sans-serif;
+              ">
+              (Toca para abrir en Waze)
+            </p>
           </div>
         </div>
 
@@ -676,6 +741,45 @@
           });
         }
       });
+
+      const audio = document.getElementById("musica-fondo");
+      const btnMusica = document.getElementById("btn-musica");
+      const textoMusica = document.getElementById("texto-musica");
+      let isPlaying = false;
+
+      // Bajar un poco el volumen para que sea ambiental y no ensordecedor
+      audio.volume = 0.4;
+
+      btnMusica.addEventListener("click", function () {
+        if (isPlaying) {
+          audio.pause();
+          textoMusica.innerHTML = "🎵 Reproducir Música";
+        } else {
+          audio.play();
+          textoMusica.innerHTML = "🎵 Pausar Música";
+        }
+        isPlaying = !isPlaying;
+      });
+
+      // Truco extra: intentar reproducir al primer toque en la pantalla
+      document.body.addEventListener(
+        "click",
+        function () {
+          if (!isPlaying) {
+            audio
+              .play()
+              .then(() => {
+                isPlaying = true;
+                textoMusica.innerHTML = "🎵 Pausar Música";
+              })
+              .catch((err) => {
+                // El navegador bloqueó el autoplay, esperamos a que use el botón
+                console.log("Esperando interacción manual para el audio.");
+              });
+          }
+        },
+        { once: true },
+      ); // El { once: true } hace que este evento se ejecute solo una vez
     </script>
   </body>
 </html>
