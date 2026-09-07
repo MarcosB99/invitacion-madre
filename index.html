@@ -8,445 +8,22 @@
     <!-- Google Fonts Typos -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="./styles.css" />
     <!-- Playfair Display (Serif), Lato (Sans-serif), y Pinyon Script (Manuscript) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
       rel="stylesheet" />
-
-    <style>
-      /* ==================================================
-           Variables and Color Palettes
-           ================================================== */
-      :root {
-        --ivory: #f4eee5;
-        --cream: #eae0d2;
-        --beige: #d8cbb8;
-        --principal-text: #171717;
-        --secondary-text: #4a4540;
-        --accent: #8b6f61;
-      }
-
-      /* ==================================================
-           Global resets and sets
-           ================================================== */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        background-color: var(--ivory);
-        color: var(--principal-text);
-        font-family: "Lato", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        line-height: 1.8;
-        overflow-x: hidden;
-        /* SVG noise paper texture */
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-      }
-
-      h1,
-      h2,
-      h3,
-      .serif {
-        font-family: "Playfair Display", serif;
-        font-weight: 400;
-      }
-
-      .script {
-        font-family: "Pinyon Script", cursive;
-        font-size: clamp(2.5rem, 8vw, 4rem);
-        color: var(--accent);
-        line-height: 1.2;
-      }
-
-      .sans-tracking {
-        font-family: "Lato", sans-serif;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        color: var(--secondary-text);
-      }
-
-      section {
-        padding: 12vh 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        position: relative;
-        min-height: 50vh;
-      }
-
-      /* ==================================================
-           animation system (SCROLL REVEAL)
-           ================================================== */
-      .reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition:
-          opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1),
-          transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-      }
-
-      .reveal.active {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .delay-1 {
-        transition-delay: 0.5s;
-      }
-      .delay-2 {
-        transition-delay: 1s;
-      }
-      .delay-3 {
-        transition-delay: 1.5s;
-      }
-      .delay-4 {
-        transition-delay: 2s;
-      }
-
-      /* ==================================================
-           Specifics
-           ================================================== */
-
-      /* 1. Opening */
-      .hero {
-        min-height: 100vh;
-        justify-content: center;
-        padding-top: 15vh;
-      }
-
-      .hero-title {
-        font-size: clamp(2rem, 7vw, 3.5rem);
-        line-height: 1.3;
-        margin: 2rem 0;
-        color: var(--principal-text);
-        max-width: 800px;
-      }
-
-      .scroll-indicator {
-        margin-top: 15vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        opacity: 0.6;
-      }
-
-      .scroll-line {
-        width: 1px;
-        height: 60px;
-        background-color: var(--secondary-text);
-        margin-top: 1rem;
-        animation: growDown 2s ease-in-out infinite;
-        transform-origin: top;
-      }
-
-      @keyframes growDown {
-        0% {
-          transform: scaleY(0);
-          opacity: 0;
-        }
-        50% {
-          transform: scaleY(1);
-          opacity: 1;
-        }
-        100% {
-          transform: scaleY(1);
-          opacity: 0;
-        }
-      }
-
-      /* Botanic Images SVG */
-      .botanical-svg {
-        width: 80px;
-        height: auto;
-        stroke: var(--accent);
-        stroke-width: 1.5;
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        opacity: 0.7;
-        margin: 2rem auto;
-      }
-
-      /* 2. The road (progressive words) */
-      .word-list {
-        margin: 4rem 0;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-      }
-
-      .word-list span {
-        font-size: clamp(1.2rem, 4vw, 1.8rem);
-        color: var(--secondary-text);
-      }
-
-      /* 3. Achieve and image */
-      .illustration-container {
-        margin: 4rem 0;
-        width: 100%;
-        max-width: 250px;
-      }
-
-      /* drawing animation SVG */
-      .draw-path {
-        fill: none;
-        stroke: var(--principal-text);
-        stroke-width: 1.5;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        stroke-dasharray: 1000;
-        stroke-dashoffset: 1000;
-        transition: stroke-dashoffset 4s cubic-bezier(0.25, 1, 0.5, 1);
-      }
-
-      .active .draw-path {
-        stroke-dashoffset: 0;
-      }
-
-      .graduate-name {
-        font-size: clamp(2.5rem, 8vw, 4rem);
-        margin: 1rem 0 2rem;
-        color: var(--principal-text);
-        border-bottom: 1px solid var(--beige);
-        padding-bottom: 1rem;
-      }
-
-      /* 4. Línea de tiempo */
-      .timeline {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 4rem 0;
-        position: relative;
-      }
-
-      .timeline-item {
-        position: relative;
-        padding: 2rem 0;
-        z-index: 2;
-      }
-
-      .timeline-item::after {
-        content: "";
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background-color: var(--secondary-text);
-        border-radius: 50%;
-        bottom: -3px;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .timeline-item:last-child::after {
-        display: none;
-      }
-
-      .timeline-line {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background: var(--secondary-text);
-        opacity: 0.3;
-        z-index: 1;
-        /* Efecto imperfecto */
-        border-left: 1px dashed var(--accent);
-        background: transparent;
-      }
-
-      /* 5. La Invitación Formal */
-      .invitation-card {
-        border: 1px solid var(--beige);
-        padding: 4rem 2rem;
-        margin: 2rem auto;
-        max-width: 600px;
-        background-color: var(--ivory);
-        position: relative;
-      }
-
-      .invitation-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 3rem;
-        margin-top: 4rem;
-      }
-
-      .grid-item h3 {
-        font-size: 0.7rem;
-        letter-spacing: 0.3em;
-        color: var(--secondary-text);
-        margin-bottom: 1rem;
-      }
-
-      .grid-item p {
-        font-size: 1.2rem;
-        color: var(--principal-text);
-      }
-
-      .big-date {
-        font-size: clamp(3rem, 10vw, 5rem);
-        line-height: 1;
-        margin: 0.5rem 0;
-        color: var(--principal-text);
-      }
-
-      /* 6. Fondos alternos */
-      .bg-crema {
-        background-color: var(--cream);
-      }
-
-      /* 7. Botón RSVP */
-      .btn-rsvp {
-        display: inline-block;
-        background: transparent;
-        border: 1px solid var(--principal-text);
-        color: var(--principal-text);
-        padding: 1.2rem 3rem;
-        font-family: "Lato", sans-serif;
-        font-size: 0.8rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        text-decoration: none;
-        margin-top: 3rem;
-        cursor: pointer;
-        transition: all 0.4s ease;
-      }
-
-      .btn-rsvp:hover {
-        background: var(--principal-text);
-        color: var(--ivory);
-      }
-
-      /* 8. Mensaje final */
-      .final-message {
-        min-height: 80vh;
-      }
-
-      .personal-note {
-        margin-top: 6rem;
-        padding-top: 4rem;
-        border-top: 1px solid var(--beige);
-        max-width: 600px;
-      }
-
-      .personal-note p {
-        margin-bottom: 2rem;
-      }
-
-      .text-lead {
-        font-size: 1.2rem;
-        color: var(--principal-text);
-      }
-
-      /* Estilo elegante para el enlace de la ubicación */
-      .location-link {
-        color: var(--texto-principal);
-        text-decoration: none;
-        border-bottom: 1px solid var(--acento);
-        padding-bottom: 2px;
-        transition: all 0.4s ease;
-        cursor: pointer;
-      }
-
-      .location-link:hover,
-      .location-link:active {
-        color: var(--acento);
-        border-bottom: 1px solid transparent;
-      }
-
-      .btn-musica {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: var(--marfil);
-        border: 1px solid var(--acento);
-        color: var(--texto-secundario);
-        padding: 0.8rem 1.2rem;
-        font-family: "Lato", sans-serif;
-        font-size: 0.7rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        border-radius: 50px;
-        cursor: pointer;
-        z-index: 9999;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        transition: all 0.4s ease;
-      }
-
-      .btn-musica:hover {
-        background-color: var(--crema);
-        color: var(--texto-principal);
-      }
-
-      /* Efecto hover sutil para la fecha */
-      .date-hover {
-        transition: color 0.4s ease;
-      }
-      #btn-calendario:hover .date-hover {
-        color: var(--acento);
-      }
-
-      /* Estilo del menú desplegable */
-      .calendar-modal {
-        display: none; /* Oculto por defecto */
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(10px);
-        background-color: var(--marfil);
-        border: 1px solid var(--beige);
-        padding: 1.5rem;
-        z-index: 100;
-        flex-direction: column;
-        gap: 1.2rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        min-width: 220px;
-        opacity: 0;
-        transition: all 0.4s ease;
-      }
-
-      .calendar-modal.active {
-        display: flex;
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-
-      .calendar-modal a {
-        color: var(--texto-principal);
-        text-decoration: none;
-        font-family: "Lato", sans-serif;
-        font-size: 0.75rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        border-bottom: 1px solid transparent;
-        padding-bottom: 4px;
-        transition: all 0.3s ease;
-      }
-
-      .calendar-modal a:hover {
-        color: var(--acento);
-        border-bottom: 1px solid var(--acento);
-      }
-    </style>
   </head>
   <body>
     <audio id="musica-fondo" loop preload="auto">
-      <source src="./audio.mp3" type="audio/mpeg" />
+      <source src="./assets/audio.mp3" type="audio/mpeg" />
     </audio>
 
-    <!-- Botón elegante flotante -->
+    <!-- floating button -->
     <button id="btn-musica" class="btn-musica">
       <span id="texto-musica">🎵 Reproducir Música</span>
     </button>
-    <!-- 1. APERTURA -->
+    <!-- 1. opening -->
     <section class="hero">
       <p class="sans-tracking reveal">Familia & Amigos</p>
 
@@ -458,7 +35,7 @@
         Hoy queremos celebrar uno de ellos.
       </p>
 
-      <!-- Elemento botánico -->
+      <!-- botanic element -->
       <svg class="botanical-svg reveal delay-3" viewBox="0 0 100 100">
         <path
           d="M50,90 Q50,50 50,10 M50,70 Q70,60 80,40 M50,50 Q30,40 20,20 M50,30 Q65,25 70,10" />
@@ -470,7 +47,7 @@
       </div>
     </section>
 
-    <!-- 2. EL COMIENZO DE UN CAMINO -->
+    <!-- 2. Start of the journey -->
     <section>
       <p class="serif text-lead reveal">
         Detrás de este logro hubo muchas<br />cosas que no siempre se ven.
@@ -489,11 +66,10 @@
       </p>
     </section>
 
-    <!-- 3. EL LOGRO -->
+    <!-- 3. The achievement -->
     <section>
       <p class="sans-tracking reveal">Hoy celebramos a</p>
 
-      <!-- EDITAR: Nombre de la graduada -->
       <h2 class="graduate-name serif reveal">
         Myriam Aracely Gálvez Hernández de Barrientos
       </h2>
@@ -756,6 +332,17 @@
       </svg>
 
       <!-- Mensaje Personal a Mamá -->
+
+      <div class="photo-container reveal delay-2">
+        <div class="photo-frame">
+          <!-- Reemplaza 'foto-mama.jpg' por el nombre real de tu imagen -->
+          <img
+            src="./assets/1000038334.JPG"
+            alt="Nuestra graduada"
+            class="mama-photo" />
+        </div>
+      </div>
+
       <div class="personal-note reveal">
         <p class="script" style="margin-bottom: 2rem; font-size: 3rem">
           Madre,
@@ -774,154 +361,6 @@
         </p>
       </div>
     </section>
-
-    <!-- ==================================================
-         LÓGICA DE INTERACCIÓN (JAVASCRIPT)
-         ================================================== -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // 1. Configuración del IntersectionObserver para animaciones de scroll
-        const revealElements = document.querySelectorAll(".reveal");
-
-        const observerOptions = {
-          threshold: 0.15,
-          rootMargin: "0px 0px -50px 0px",
-        };
-
-        const scrollObserver = new IntersectionObserver(function (
-          entries,
-          observer,
-        ) {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("active");
-              observer.unobserve(entry.target);
-            }
-          });
-        }, observerOptions);
-
-        revealElements.forEach((el) => {
-          scrollObserver.observe(el);
-        });
-
-        // 2. Interacción del botón RSVP (Ejemplo)
-        const btnConfirmar = document.getElementById("btn-confirmar");
-        if (btnConfirmar) {
-          btnConfirmar.addEventListener("click", function (e) {
-            // Solo como efecto visual por ahora si no hay link:
-            if (this.getAttribute("href") === "#") {
-              e.preventDefault();
-              this.innerHTML = "¡Gracias por confirmar!";
-              this.style.backgroundColor = "var(--principal-text)";
-              this.style.color = "var(--ivory)";
-              this.style.pointerEvents = "none";
-            }
-          });
-        }
-      });
-
-      const audio = document.getElementById("musica-fondo");
-      const btnMusica = document.getElementById("btn-musica");
-      const textoMusica = document.getElementById("texto-musica");
-      let isPlaying = false;
-
-      // Bajar un poco el volumen para que sea ambiental y no ensordecedor
-      audio.volume = 0.4;
-
-      btnMusica.addEventListener("click", function () {
-        if (isPlaying) {
-          audio.pause();
-          textoMusica.innerHTML = "🎵 Reproducir Música";
-        } else {
-          audio.play();
-          textoMusica.innerHTML = "🎵 Pausar Música";
-        }
-        isPlaying = !isPlaying;
-      });
-
-      // Truco extra: intentar reproducir al primer toque en la pantalla
-      document.body.addEventListener(
-        "click",
-        function () {
-          if (!isPlaying) {
-            audio
-              .play()
-              .then(() => {
-                isPlaying = true;
-                textoMusica.innerHTML = "🎵 Pausar Música";
-              })
-              .catch((err) => {
-                // El navegador bloqueó el autoplay, esperamos a que use el botón
-                console.log("Esperando interacción manual para el audio.");
-              });
-          }
-        },
-        { once: true },
-      ); // El { once: true } hace que este evento se ejecute solo una vez
-
-      document.addEventListener("DOMContentLoaded", function () {
-        // --------------------------------------------------
-        // LÓGICA DEL CALENDARIO
-        // --------------------------------------------------
-        const btnCalendario = document.getElementById("btn-calendario");
-        const modalCalendario = document.getElementById("modal-calendario");
-
-        // 1. Mostrar/Ocultar el menú al tocar la fecha
-        if (btnCalendario) {
-          btnCalendario.addEventListener("click", function (e) {
-            e.stopPropagation(); // Evita que se cierre instantáneamente
-            modalCalendario.classList.toggle("active");
-          });
-        }
-
-        // 2. Cerrar el menú si tocan en cualquier otra parte de la pantalla
-        document.addEventListener("click", function (e) {
-          if (
-            modalCalendario &&
-            !modalCalendario.contains(e.target) &&
-            !btnCalendario.contains(e.target)
-          ) {
-            modalCalendario.classList.remove("active");
-          }
-        });
-
-        // 3. Generar los enlaces del evento (¡Edita el año si es necesario!)
-        // Formato de fecha para calendarios: YYYYMMDDTHHmmss (Año, Mes, Día, T, Hora, Minuto, Segundo)
-        const inicioEvento = "20261121T080000";
-        const finEvento = "20261121T110000"; // Asumiendo que dura 3 horas (hasta las 11:00 AM)
-
-        const titulo = "Graduación de Mamá";
-        const detalles =
-          "Comida de agradecimiento y celebración por la graduación. ¡Nos emociona mucho compartir este momento contigo!";
-        const ubicacion = "VILLAS MAGEN NARANJO";
-
-        // --- ENLACE PARA GOOGLE CALENDAR ---
-        const urlGoogle = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${inicioEvento}/${finEvento}&details=${encodeURIComponent(detalles)}&location=${encodeURIComponent(ubicacion)}`;
-        document.getElementById("cal-google").href = urlGoogle;
-
-        // --- ARCHIVO PARA APPLE CALENDAR / OUTLOOK (.ics) ---
-        // Creamos el formato estándar iCalendar
-        const contenidoIcs = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:${titulo}
-DTSTART:${inicioEvento}
-DTEND:${finEvento}
-LOCATION:${ubicacion}
-DESCRIPTION:${detalles}
-END:VEVENT
-END:VCALENDAR`;
-
-        // Convertimos el texto en un archivo descargable temporal
-        const blob = new Blob([contenidoIcs], {
-          type: "text/calendar;charset=utf-8",
-        });
-        const urlIcs = window.URL.createObjectURL(blob);
-        const linkApple = document.getElementById("cal-apple");
-
-        linkApple.href = urlIcs;
-        linkApple.download = "celebracion-graduacion.ics"; // Nombre del archivo que se descarga
-      });
-    </script>
+    <script src="./script.js"></script>
   </body>
 </html>
