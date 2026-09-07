@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Una Invitación Especial</title>
+
+    <!-- Google Fonts Typos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Playfair Display (Serif), Lato (Sans-serif), y Pinyon Script (Manuscript) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet" />
+
+    <style>
+      /* ==================================================
+           Variables and Color Palettes
+           ================================================== */
+      :root {
+        --ivory: #f4eee5;
+        --cream: #eae0d2;
+        --beige: #d8cbb8;
+        --principal-text: #171717;
+        --secondary-text: #4a4540;
+        --accent: #8b6f61;
+      }
+
+      /* ==================================================
+           Global resets and sets
+           ================================================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--ivory);
+        color: var(--principal-text);
+        font-family: "Lato", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: 1.8;
+        overflow-x: hidden;
+        /* SVG noise paper texture */
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      }
+
+      h1,
+      h2,
+      h3,
+      .serif {
+        font-family: "Playfair Display", serif;
+        font-weight: 400;
+      }
+
+      .script {
+        font-family: "Pinyon Script", cursive;
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        color: var(--accent);
+        line-height: 1.2;
+      }
+
+      .sans-tracking {
+        font-family: "Lato", sans-serif;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: var(--secondary-text);
+      }
+
+      section {
+        padding: 12vh 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        min-height: 50vh;
+      }
+
+      /* ==================================================
+           animation system (SCROLL REVEAL)
+           ================================================== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1),
+          transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .delay-1 {
+        transition-delay: 0.5s;
+      }
+      .delay-2 {
+        transition-delay: 1s;
+      }
+      .delay-3 {
+        transition-delay: 1.5s;
+      }
+      .delay-4 {
+        transition-delay: 2s;
+      }
+
+      /* ==================================================
+           Specifics
+           ================================================== */
+
+      /* 1. Opening */
+      .hero {
+        min-height: 100vh;
+        justify-content: center;
+        padding-top: 15vh;
+      }
+
+      .hero-title {
+        font-size: clamp(2rem, 7vw, 3.5rem);
+        line-height: 1.3;
+        margin: 2rem 0;
+        color: var(--principal-text);
+        max-width: 800px;
+      }
+
+      .scroll-indicator {
+        margin-top: 15vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.6;
+      }
+
+      .scroll-line {
+        width: 1px;
+        height: 60px;
+        background-color: var(--secondary-text);
+        margin-top: 1rem;
+        animation: growDown 2s ease-in-out infinite;
+        transform-origin: top;
+      }
+
+      @keyframes growDown {
+        0% {
+          transform: scaleY(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scaleY(1);
+          opacity: 0;
+        }
+      }
+
+      /* Botanic Images SVG */
+      .botanical-svg {
+        width: 80px;
+        height: auto;
+        stroke: var(--accent);
+        stroke-width: 1.5;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.7;
+        margin: 2rem auto;
+      }
+
+      /* 2. The road (progressive words) */
+      .word-list {
+        margin: 4rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .word-list span {
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
+        color: var(--secondary-text);
+      }
+
+      /* 3. Achieve and image */
+      .illustration-container {
+        margin: 4rem 0;
+        width: 100%;
+        max-width: 250px;
+      }
+
+      /* drawing animation SVG */
+      .draw-path {
+        fill: none;
+        stroke: var(--principal-text);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        transition: stroke-dashoffset 4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      .active .draw-path {
+        stroke-dashoffset: 0;
+      }
+
+      .graduate-name {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+        margin: 1rem 0 2rem;
+        color: var(--principal-text);
+        border-bottom: 1px solid var(--beige);
+        padding-bottom: 1rem;
+      }
+
+      /* 4. Línea de tiempo */
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 4rem 0;
+        position: relative;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 2rem 0;
+        z-index: 2;
+      }
+
+      .timeline-item::after {
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background-color: var(--secondary-text);
+        border-radius: 50%;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .timeline-item:last-child::after {
+        display: none;
+      }
+
+      .timeline-line {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--secondary-text);
+        opacity: 0.3;
+        z-index: 1;
+        /* Efecto imperfecto */
+        border-left: 1px dashed var(--accent);
+        background: transparent;
+      }
+
+      /* 5. La Invitación Formal */
+      .invitation-card {
+        border: 1px solid var(--beige);
+        padding: 4rem 2rem;
+        margin: 2rem auto;
+        max-width: 600px;
+        background-color: var(--ivory);
+        position: relative;
+      }
+
+      .invitation-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        margin-top: 4rem;
+      }
+
+      .grid-item h3 {
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        color: var(--secondary-text);
+        margin-bottom: 1rem;
+      }
+
+      .grid-item p {
+        font-size: 1.2rem;
+        color: var(--principal-text);
+      }
+
+      .big-date {
+        font-size: clamp(3rem, 10vw, 5rem);
+        line-height: 1;
+        margin: 0.5rem 0;
+        color: var(--principal-text);
+      }
+
+      /* 6. Fondos alternos */
+      .bg-crema {
+        background-color: var(--cream);
+      }
+
+      /* 7. Botón RSVP */
+      .btn-rsvp {
+        display: inline-block;
+        background: transparent;
+        border: 1px solid var(--principal-text);
+        color: var(--principal-text);
+        padding: 1.2rem 3rem;
+        font-family: "Lato", sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-decoration: none;
+        margin-top: 3rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+      }
+
+      .btn-rsvp:hover {
+        background: var(--principal-text);
+        color: var(--ivory);
+      }
+
+      /* 8. Mensaje final */
+      .final-message {
+        min-height: 80vh;
+      }
+
+      .personal-note {
+        margin-top: 6rem;
+        padding-top: 4rem;
+        border-top: 1px solid var(--beige);
+        max-width: 600px;
+      }
+
+      .personal-note p {
+        margin-bottom: 2rem;
+      }
+
+      .text-lead {
+        font-size: 1.2rem;
+        color: var(--principal-text);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 1. APERTURA -->
+    <section class="hero">
+      <p class="sans-tracking reveal">Familia & Amigos</p>
+
+      <h1 class="hero-title serif reveal delay-1">
+        Hay logros que no se<br />alcanzan solos.
+      </h1>
+
+      <p class="serif reveal delay-2" style="color: var(--secondary-text)">
+        Hoy queremos celebrar uno de ellos.
+      </p>
+
+      <!-- Elemento botánico -->
+      <svg class="botanical-svg reveal delay-3" viewBox="0 0 100 100">
+        <path
+          d="M50,90 Q50,50 50,10 M50,70 Q70,60 80,40 M50,50 Q30,40 20,20 M50,30 Q65,25 70,10" />
+      </svg>
+
+      <div class="scroll-indicator reveal delay-4">
+        <span class="sans-tracking" style="font-size: 0.6rem">Descubrir</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- 2. EL COMIENZO DE UN CAMINO -->
+    <section>
+      <p class="serif text-lead reveal">
+        Detrás de este logro hubo muchas<br />cosas que no siempre se ven.
+      </p>
+
+      <div class="word-list">
+        <span class="serif reveal">ESFUERZO.</span>
+        <span class="serif reveal">SACRIFICIO.</span>
+        <span class="serif reveal">PACIENCIA.</span>
+        <span class="serif reveal">FE.</span>
+        <span class="serif reveal">PERSEVERANCIA.</span>
+      </div>
+
+      <p class="serif text-lead reveal">
+        Y cada paso hizo posible<br />llegar hasta aquí.
+      </p>
+    </section>
+
+    <!-- 3. EL LOGRO -->
+    <section>
+      <p class="sans-tracking reveal">Hoy celebramos a</p>
+
+      <!-- EDITAR: Nombre de la graduada -->
+      <h2 class="graduate-name serif reveal">
+        Myriam Aracely Gálvez Hernández de Barrientos
+      </h2>
+
+      <p
+        class="serif reveal"
+        style="max-width: 500px; color: var(--secondary-text)">
+        No solamente por haber llegado a la meta,<br />
+        sino por todo lo que hizo falta para alcanzarla.
+      </p>
+
+      <!-- Ilustración abstracta de graduación dibujada a mano -->
+      <div class="illustration-container reveal">
+        <svg viewBox="0 0 200 250" class="svg-graduate">
+          <!-- Silueta / Hombros -->
+          <path class="draw-path" d="M 40,230 Q 100,160 160,230" />
+          <!-- Cabeza / Cabello -->
+          <path class="draw-path" d="M 75,170 C 65,100 135,100 125,170" />
+          <!-- Birrete base -->
+          <path class="draw-path" d="M 50,90 L 100,60 L 150,90 L 100,120 Z" />
+          <!-- Parte inferior del birrete -->
+          <path
+            class="draw-path"
+            d="M 75,105 L 75,130 Q 100,145 125,130 L 125,105" />
+          <!-- Borla (Tassel) -->
+          <path class="draw-path" d="M 100,90 Q 140,110 145,150" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- 4. GRATITUD -->
+    <section class="bg-crema">
+      <h3 class="script reveal" style="margin-bottom: 2rem">Con gratitud</h3>
+
+      <p
+        class="serif text-lead reveal"
+        style="max-width: 600px; margin-bottom: 4rem">
+        Con gratitud a Dios, fuente de sabiduría y fortaleza, y a todas las
+        personas que con su apoyo y compañía hicieron posible este gran logro.
+      </p>
+
+      <p
+        class="serif reveal"
+        style="color: var(--secondary-text); max-width: 500px">
+        Porque ningún camino importante se recorre completamente solo.
+      </p>
+    </section>
+
+    <!-- 5. UN CAMINO HACIA LA META -->
+    <section>
+      <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-item reveal">
+          <span class="sans-tracking">Un Sueño</span>
+        </div>
+        <div class="timeline-item reveal">
+          <span class="sans-tracking">El Esfuerzo</span>
+        </div>
+        <div class="timeline-item reveal">
+          <span class="sans-tracking">Los Retos</span>
+        </div>
+        <div class="timeline-item reveal">
+          <span class="sans-tracking">El Aprendizaje</span>
+        </div>
+        <div class="timeline-item reveal">
+          <span class="sans-tracking">La Perseverancia</span>
+        </div>
+        <div class="timeline-item reveal">
+          <span class="sans-tracking">Un Logro</span>
+        </div>
+      </div>
+
+      <p class="serif text-lead reveal" style="margin-top: 3rem">
+        Y hoy, finalmente, podemos celebrarlo.
+      </p>
+    </section>
+
+    <!-- 6. TRANSICIÓN -->
+    <section style="min-height: 40vh">
+      <p class="serif text-lead reveal">Y después de todo esto...</p>
+      <p class="serif text-lead reveal" style="margin: 3rem 0">
+        Hay algo que queremos hacer.
+      </p>
+      <h2
+        class="serif reveal"
+        style="font-size: clamp(2rem, 6vw, 3rem); color: var(--accent)">
+        Celebrarlo juntos.
+      </h2>
+    </section>
+
+    <!-- 7. LA INVITACIÓN FORMAL -->
+    <section>
+      <div class="invitation-card reveal">
+        <p class="sans-tracking" style="margin-bottom: 2rem">
+          Familia & Amigos
+        </p>
+
+        <p class="serif" style="font-size: 1.1rem; margin-bottom: 1.5rem">
+          Con mucho cariño, queremos invitarte a compartir con nosotros una
+          comida de agradecimiento.
+        </p>
+
+        <p class="serif" style="color: var(--secondary-text)">
+          Tu presencia hará este día aún más especial.
+        </p>
+
+        <div class="invitation-grid">
+          <!-- EDITAR: Detalles del evento -->
+          <div class="grid-item reveal">
+            <h3 class="sans-tracking">FECHA</h3>
+            <p class="serif big-date">21</p>
+            <p class="sans-tracking" style="font-size: 1rem">NOVIEMBRE</p>
+          </div>
+
+          <div class="grid-item reveal">
+            <h3 class="sans-tracking">HORA</h3>
+            <p class="serif">8:00 A. M.</p>
+          </div>
+
+          <div class="grid-item reveal">
+            <h3 class="sans-tracking">LUGAR</h3>
+            <p class="serif">VILLAS MAGEN NARANJO</p>
+          </div>
+        </div>
+
+        <!-- Elemento botánico inferior -->
+        <svg
+          class="botanical-svg"
+          viewBox="0 0 100 100"
+          style="margin-top: 4rem; opacity: 0.3">
+          <path
+            d="M20,50 Q50,50 80,50 M35,35 Q50,50 35,65 M65,35 Q50,50 65,65" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- 8. UN MENSAJE ESPECIAL -->
+    <section class="bg-crema">
+      <p class="serif text-lead reveal" style="margin-bottom: 2rem">
+        Porque este logro también se comparte.
+      </p>
+      <p
+        class="serif reveal"
+        style="
+          max-width: 500px;
+          color: var(--secondary-text);
+          margin-bottom: 2rem;
+        ">
+        Tu apoyo, tu compañía y tu presencia forman parte de los momentos que
+        hacen especial este camino.
+      </p>
+      <p class="serif text-lead reveal">Nos encantaría celebrarlo contigo.</p>
+    </section>
+
+    <!-- 9. SECCIÓN BÍBLICA -->
+    <section>
+      <!-- Elemento decorativo -->
+      <svg
+        class="botanical-svg reveal"
+        viewBox="0 0 50 50"
+        style="width: 40px; margin-bottom: 2rem">
+        <path
+          d="M25,0 L25,50 M10,25 L40,25"
+          style="stroke: var(--beige); stroke-width: 1" />
+      </svg>
+
+      <p
+        class="serif reveal"
+        style="
+          font-style: italic;
+          font-size: 1.3rem;
+          max-width: 500px;
+          line-height: 2;
+        ">
+        "Reconoce a Dios en todos tus caminos,<br />y Él enderezará tus
+        veredas."
+      </p>
+      <p class="sans-tracking reveal" style="margin-top: 2rem">
+        Proverbios 3:6
+      </p>
+    </section>
+
+    <!-- 10. SECCIÓN RSVP -->
+    <section class="bg-crema">
+      <h2 class="serif reveal" style="font-size: 2rem; margin-bottom: 1rem">
+        ¿Nos acompañas?
+      </h2>
+      <p class="serif reveal" style="color: var(--secondary-text)">
+        Será un honor compartir este momento contigo.
+      </p>
+
+      <!-- EDITAR: Puedes cambiar el href por un enlace de WhatsApp, Google Form, etc. -->
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSd-JIDzqYkMKHuyTEitfEX8DEO0uyUFPAzrgkK90AJKe4AQug/viewform?usp=publish-editor"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-rsvp reveal"
+        id="btn-confirmar"
+        >Confirmar Asistencia</a
+      >
+    </section>
+
+    <!-- 11. FINAL DE LA EXPERIENCIA -->
+    <section class="final-message">
+      <p class="serif text-lead reveal">
+        Gracias por ser parte de este momento.
+      </p>
+      <p class="serif text-lead reveal delay-1" style="margin-top: 1rem">
+        Nos vemos para celebrar juntos.
+      </p>
+
+      <svg class="botanical-svg reveal delay-2" viewBox="0 0 100 100">
+        <path
+          d="M50,90 Q50,50 50,10 M50,70 Q70,60 80,40 M50,50 Q30,40 20,20 M50,30 Q65,25 70,10" />
+      </svg>
+
+      <!-- Mensaje Personal a Mamá -->
+      <div class="personal-note reveal">
+        <p class="script" style="margin-bottom: 2rem; font-size: 3rem">
+          Madre,
+        </p>
+
+        <p class="serif">hoy celebramos tu graduación.</p>
+
+        <p class="serif" style="color: var(--secondary-text)">
+          Pero también celebramos a la mujer que siguió adelante,<br />
+          incluso cuando el camino exigía más de lo esperado.
+        </p>
+
+        <p class="serif text-lead" style="margin-top: 3rem">
+          Este logro es tuyo.<br />
+          Y estamos orgullosos de ti.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================================================
+         LÓGICA DE INTERACCIÓN (JAVASCRIPT)
+         ================================================== -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // 1. Configuración del IntersectionObserver para animaciones de scroll
+        const revealElements = document.querySelectorAll(".reveal");
+
+        const observerOptions = {
+          threshold: 0.15,
+          rootMargin: "0px 0px -50px 0px",
+        };
+
+        const scrollObserver = new IntersectionObserver(function (
+          entries,
+          observer,
+        ) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        revealElements.forEach((el) => {
+          scrollObserver.observe(el);
+        });
+
+        // 2. Interacción del botón RSVP (Ejemplo)
+        const btnConfirmar = document.getElementById("btn-confirmar");
+        if (btnConfirmar) {
+          btnConfirmar.addEventListener("click", function (e) {
+            // Solo como efecto visual por ahora si no hay link:
+            if (this.getAttribute("href") === "#") {
+              e.preventDefault();
+              this.innerHTML = "¡Gracias por confirmar!";
+              this.style.backgroundColor = "var(--principal-text)";
+              this.style.color = "var(--ivory)";
+              this.style.pointerEvents = "none";
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
