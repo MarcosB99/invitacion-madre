@@ -385,6 +385,56 @@
         background-color: var(--crema);
         color: var(--texto-principal);
       }
+
+      /* Efecto hover sutil para la fecha */
+      .date-hover {
+        transition: color 0.4s ease;
+      }
+      #btn-calendario:hover .date-hover {
+        color: var(--acento);
+      }
+
+      /* Estilo del menú desplegable */
+      .calendar-modal {
+        display: none; /* Oculto por defecto */
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background-color: var(--marfil);
+        border: 1px solid var(--beige);
+        padding: 1.5rem;
+        z-index: 100;
+        flex-direction: column;
+        gap: 1.2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        min-width: 220px;
+        opacity: 0;
+        transition: all 0.4s ease;
+      }
+
+      .calendar-modal.active {
+        display: flex;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .calendar-modal a {
+        color: var(--texto-principal);
+        text-decoration: none;
+        font-family: "Lato", sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        border-bottom: 1px solid transparent;
+        padding-bottom: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .calendar-modal a:hover {
+        color: var(--acento);
+        border-bottom: 1px solid var(--acento);
+      }
     </style>
   </head>
   <body>
@@ -552,10 +602,38 @@
 
         <div class="invitation-grid">
           <!-- EDITAR: Detalles del evento -->
-          <div class="grid-item reveal">
+          <div class="grid-item reveal" style="position: relative">
             <h3 class="sans-tracking">FECHA</h3>
-            <p class="serif big-date">21</p>
-            <p class="sans-tracking" style="font-size: 1rem">NOVIEMBRE</p>
+
+            <!-- Contenedor clickeable -->
+            <div
+              id="btn-calendario"
+              style="cursor: pointer; display: inline-block">
+              <p class="serif big-date date-hover">21</p>
+              <p class="sans-tracking" style="font-size: 1rem">NOVIEMBRE</p>
+              <!-- Texto de ayuda sutil -->
+              <p
+                style="
+                  font-size: 0.65rem;
+                  color: var(--texto-secundario);
+                  margin-top: 0.5rem;
+                  font-family: &quot;Lato&quot;, sans-serif;
+                ">
+                (Toca para añadir al calendario)
+              </p>
+            </div>
+
+            <!-- Menú desplegable elegante -->
+            <div id="modal-calendario" class="calendar-modal">
+              <a
+                href="#"
+                id="cal-google"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Google Calendar</a
+              >
+              <a href="#" id="cal-apple">Apple / Outlook</a>
+            </div>
           </div>
 
           <div class="grid-item reveal">
@@ -780,6 +858,70 @@
         },
         { once: true },
       ); // El { once: true } hace que este evento se ejecute solo una vez
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // --------------------------------------------------
+        // LÓGICA DEL CALENDARIO
+        // --------------------------------------------------
+        const btnCalendario = document.getElementById("btn-calendario");
+        const modalCalendario = document.getElementById("modal-calendario");
+
+        // 1. Mostrar/Ocultar el menú al tocar la fecha
+        if (btnCalendario) {
+          btnCalendario.addEventListener("click", function (e) {
+            e.stopPropagation(); // Evita que se cierre instantáneamente
+            modalCalendario.classList.toggle("active");
+          });
+        }
+
+        // 2. Cerrar el menú si tocan en cualquier otra parte de la pantalla
+        document.addEventListener("click", function (e) {
+          if (
+            modalCalendario &&
+            !modalCalendario.contains(e.target) &&
+            !btnCalendario.contains(e.target)
+          ) {
+            modalCalendario.classList.remove("active");
+          }
+        });
+
+        // 3. Generar los enlaces del evento (¡Edita el año si es necesario!)
+        // Formato de fecha para calendarios: YYYYMMDDTHHmmss (Año, Mes, Día, T, Hora, Minuto, Segundo)
+        const inicioEvento = "20261121T080000";
+        const finEvento = "20261121T110000"; // Asumiendo que dura 3 horas (hasta las 11:00 AM)
+
+        const titulo = "Graduación de Mamá";
+        const detalles =
+          "Comida de agradecimiento y celebración por la graduación. ¡Nos emociona mucho compartir este momento contigo!";
+        const ubicacion = "VILLAS MAGEN NARANJO";
+
+        // --- ENLACE PARA GOOGLE CALENDAR ---
+        const urlGoogle = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${inicioEvento}/${finEvento}&details=${encodeURIComponent(detalles)}&location=${encodeURIComponent(ubicacion)}`;
+        document.getElementById("cal-google").href = urlGoogle;
+
+        // --- ARCHIVO PARA APPLE CALENDAR / OUTLOOK (.ics) ---
+        // Creamos el formato estándar iCalendar
+        const contenidoIcs = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${titulo}
+DTSTART:${inicioEvento}
+DTEND:${finEvento}
+LOCATION:${ubicacion}
+DESCRIPTION:${detalles}
+END:VEVENT
+END:VCALENDAR`;
+
+        // Convertimos el texto en un archivo descargable temporal
+        const blob = new Blob([contenidoIcs], {
+          type: "text/calendar;charset=utf-8",
+        });
+        const urlIcs = window.URL.createObjectURL(blob);
+        const linkApple = document.getElementById("cal-apple");
+
+        linkApple.href = urlIcs;
+        linkApple.download = "celebracion-graduacion.ics"; // Nombre del archivo que se descarga
+      });
     </script>
   </body>
 </html>
