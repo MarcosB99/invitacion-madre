@@ -459,3 +459,14 @@ section {
 .photo-frame:hover .mama-photo {
   filter: sepia(0%) grayscale(0%) contrast(1);
 }
+
+/* Efecto hover sutil para la ubicación */
+.location-hover {
+  transition: color 0.4s ease;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+#btn-ubicacion:hover .location-hover {
+  color: var(--acento);
+  border-bottom: 1px solid var(--acento);
+}

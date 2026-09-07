@@ -217,26 +217,47 @@
             <p class="serif">8:00 A. M.</p>
           </div>
 
-          <div class="grid-item reveal">
+          <div class="grid-item reveal" style="position: relative; z-index: 10">
             <h3 class="sans-tracking">LUGAR</h3>
-            <p class="serif">
+
+            <!-- Contenedor clickeable -->
+            <div
+              id="btn-ubicacion"
+              style="cursor: pointer; display: inline-block">
+              <p
+                class="serif location-hover"
+                style="font-size: 1.2rem; color: var(--texto-principal)">
+                VILLAS MAGEN NARANJO
+              </p>
+              <!-- Texto de ayuda sutil -->
+              <p
+                style="
+                  font-size: 0.65rem;
+                  color: var(--texto-secundario);
+                  margin-top: 0.5rem;
+                  font-family: &quot;Lato&quot;, sans-serif;
+                ">
+                (Toca para ver rutas)
+              </p>
+            </div>
+
+            <!-- Menú desplegable elegante (Reutilizamos la clase calendar-modal) -->
+            <div id="modal-ubicacion" class="calendar-modal">
+              <!-- El enlace de Waze que me pasaste antes -->
               <a
                 href="https://ul.waze.com/ul?venue_id=176554131.1765803450.9512547&overview=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="location-link"
-                >VILLAS MAGEN NARANJO</a
+                >Abrir en Waze</a
               >
-            </p>
-            <p
-              style="
-                font-size: 0.7rem;
-                color: var(--texto-secundario);
-                margin-top: 0.5rem;
-                font-family: &quot;Lato&quot;, sans-serif;
-              ">
-              (Toca para abrir en Waze)
-            </p>
+              <!-- El enlace universal de Google Maps -->
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=VILLAS+MAGEN+NARANJO"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Abrir en Google Maps</a
+              >
+            </div>
           </div>
         </div>
 
